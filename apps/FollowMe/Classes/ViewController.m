@@ -11,8 +11,8 @@
 
 @property float stretchFactorX;
 @property float stretchFactorY;
-@property (weak) IBOutlet UIButton *smileView;
 @property (weak) IBOutlet UIButton *browFurrowView;
+@property (weak) IBOutlet UIButton *smileView;
 @property (weak) IBOutlet UIButton *browRaiseView;
 @property (weak) IBOutlet UIButton *lipCornerDepressorView;
 @property (weak) IBOutlet UIButton *valenceView;
@@ -37,21 +37,31 @@
     self.fpsProcessed.text = @"";
     self.detectors.text = @"";
     self.appleDetectors.text = @"";
-    [self.smileView setImage:[UIImage imageNamed:@"Face_Sleep"] forState:UIControlStateNormal];
-    [self.smileView setImage:[UIImage imageNamed:@"Face_Neutral"] forState:UIControlStateSelected];
-    [self.smileView setSelected:TRUE];
+    
     [self.browFurrowView setImage:[UIImage imageNamed:@"Face_Sleep"] forState:UIControlStateNormal];
     [self.browFurrowView setImage:[UIImage imageNamed:@"Face_Neutral"] forState:UIControlStateSelected];
     [self.browFurrowView setSelected:TRUE];
+    self.browFurrowView.tag = 101;
+    
+    [self.smileView setImage:[UIImage imageNamed:@"Face_Sleep"] forState:UIControlStateNormal];
+    [self.smileView setImage:[UIImage imageNamed:@"Face_Neutral"] forState:UIControlStateSelected];
+    [self.smileView setSelected:TRUE];
+    self.smileView.tag = 102;
+    
     [self.browRaiseView setImage:[UIImage imageNamed:@"Face_Sleep"] forState:UIControlStateNormal];
     [self.browRaiseView setImage:[UIImage imageNamed:@"Face_Neutral"] forState:UIControlStateSelected];
     [self.browRaiseView setSelected:TRUE];
+    self.browRaiseView.tag = 103;
+    
     [self.lipCornerDepressorView setImage:[UIImage imageNamed:@"Face_Sleep"] forState:UIControlStateNormal];
     [self.lipCornerDepressorView setImage:[UIImage imageNamed:@"Face_Neutral"] forState:UIControlStateSelected];
     [self.lipCornerDepressorView setSelected:TRUE];
+    self.lipCornerDepressorView.tag = 104;
+    
     [self.valenceView setImage:[UIImage imageNamed:@"Face_Sleep"] forState:UIControlStateNormal];
     [self.valenceView setImage:[UIImage imageNamed:@"Face_Neutral"] forState:UIControlStateSelected];
     [self.valenceView setSelected:TRUE];
+    self.valenceView.tag = 105;
     
     self.smileScore.text = @"0%";
     self.browFurrowScore.text = @"0%";
@@ -80,7 +90,9 @@
     self.detector.browFurrow = TRUE;
     self.detector.lipCornerDepressor = TRUE;
     self.detector.valence = TRUE;
-    self.detector.sendUnprocessedFrames = YES;
+    self.detector.sendUnprocessedFrames = FALSE;
+    
+    self.detector.maxProcessRate = 30.f;
     
     self.dateOfLastFrame = nil;
     self.dateOfLastProcessedFrame = nil;
@@ -143,8 +155,9 @@
     {
         [self.imageView setImage:image];
     }
-    else
+    else if(FALSE == self.detector.sendUnprocessedFrames) // avoid redundant setting of image
     {
+        [self.imageView setImage:image];
     }
     
     if (nil == metrics)
@@ -350,26 +363,34 @@
 // Future: we want to be able to turn on or off a facial expression while the engine is still running.
 - (IBAction)handleButtonTouch:(UIButton *)sender;
 {
-    return; // IGNORE FOR NOW.
-    
     [sender setSelected:!sender.selected];
+    AFDXMetric *nanMetric = [[AFDXMetric alloc] initWithValue:[NSNumber numberWithDouble:NAN]];
     
     switch ([sender tag])
     {
-        case 0: // Brow Raise
-            self.detector.smile = sender.selected;
-            break;
-            
-        case 1: // Brow Furrow
+        case 101: // Brow Furrow
             self.detector.browFurrow = sender.selected;
+            if (NO == sender.selected) [self handleBrowFurrow:(AFDXBrowFurrowMetric *)nanMetric];
             break;
             
-        case 2: // Smile
+        case 102: // Smile
             self.detector.smile = sender.selected;
+            if (NO == sender.selected) [self handleSmile:(AFDXSmileMetric *)nanMetric];
             break;
             
-        case 3: // Lip Corner Depressor
+        case 103: // Brow Raise
+            self.detector.browRaise = sender.selected;
+            if (NO == sender.selected) [self handleBrowRaise:(AFDXBrowRaiseMetric *)nanMetric];
+            break;
+            
+        case 104: // Lip Corner Depressor
             self.detector.lipCornerDepressor = sender.selected;
+            if (NO == sender.selected) [self handleLipCornerDepressor:(AFDXLipCornerDepressorMetric *)nanMetric];
+            break;
+            
+        case 105: // valence
+            self.detector.valence = sender.selected;
+            if (NO == sender.selected) [self handleValence:(AFDXValenceMetric *)nanMetric];
             break;
     }
 }
