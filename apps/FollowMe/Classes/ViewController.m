@@ -9,8 +9,6 @@
 
 @interface ViewController ()
 
-@property float stretchFactorX;
-@property float stretchFactorY;
 @property (weak) IBOutlet UIButton *browFurrowView;
 @property (weak) IBOutlet UIButton *smileView;
 @property (weak) IBOutlet UIButton *browRaiseView;
