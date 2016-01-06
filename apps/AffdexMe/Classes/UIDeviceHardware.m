@@ -3,7 +3,7 @@
 //  AffdexResearch
 //
 //  Created by boisy on 8/5/15.
-//  Copyright (c) 2015 Boisy Pitre. All rights reserved.
+//  Copyright (c) 2016 Boisy Pitre. All rights reserved.
 //
 
 #import "UIDeviceHardware.h"

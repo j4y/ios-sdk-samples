@@ -3,7 +3,7 @@
 //  AffdexMe
 //
 //  Created by boisy on 8/18/15.
-//  Copyright (c) 2015 Affectiva. All rights reserved.
+//  Copyright (c) 2016 Affectiva. All rights reserved.
 //
 
 #import "EmotionPickerViewController.h"

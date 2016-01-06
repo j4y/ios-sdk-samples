@@ -3,7 +3,7 @@
 //  AffdexMe
 //
 //  Created by Boisy Pitre on 2/14/14.
-//  Copyright (c) 2014 Affectiva. All rights reserved.
+//  Copyright (c) 2016 Affectiva. All rights reserved.
 //
 
 #import <UIKit/UIKit.h>

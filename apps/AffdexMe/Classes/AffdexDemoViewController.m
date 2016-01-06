@@ -2,7 +2,7 @@
 //  AffdexDemoViewController.m
 //
 //  Created by Affectiva on 2/22/13.
-//  Copyright (c) 2013 Affectiva All rights reserved.
+//  Copyright (c) 2016 Affectiva All rights reserved.
 //
 
 // If this feature is turned on, then emotions and expressions will be sent via UDP
