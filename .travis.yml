@@ -3,4 +3,4 @@ before_script:
   - brew update
   - brew install xctool
 script:
-  - xctool -workspace MyWorkspace -scheme MyScheme build test
+  - xctool -workspace AffdexMe -scheme MyScheme build test
