@@ -1,0 +1,22 @@
+language: objective-c
+
+osx_image: xcode7
+
+xcode_project: apps/AffdexMe/AffdexMe.xcodeproj
+
+xcode_scheme: AffdexMe
+
+xcode_sdk: iphonesimulator9.0
+
+notifications:
+    email: false
+
+before_install:
+  # Download the latest iOS SDK
+  - wget http://affdex-sdk-dist.s3-website-us-east-1.amazonaws.com/ios/download_sdk.html
+  # Decompress the download
+  - tar xvf download_sdk.html
+  # Copy the Affdex.framework directory into the frameworks directory
+  - cp -R affdex-sdk/Framework_Universal/Affdex.framework frameworks/
+  # Add empty license file so that the project builds
+  - touch apps/AffdexMe/sdk.license
